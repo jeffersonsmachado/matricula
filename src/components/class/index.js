@@ -27,7 +27,7 @@ const Class = (props) => {
                         {
                             list.map(({ name, id }) => (
                                 <li key={id}>
-                                    <Checkbox option={name} key={id} />
+                                    <Checkbox option={name} value={id} />
                                 </li>
                             ))
                         }

@@ -1,0 +1,129 @@
+// USING DRY CSS PATTERN
+// patter from Jeremy Clarke presentation
+// original can be found https://vimeo.com/38063798
+
+$color-primary: #6200ea;
+$color-light: #9d46ff;
+$color-dark: #0a00b6;
+
+$background-primary: #ede7f6;
+$background-light: #fff;
+$background-dark: #bbb5c3;
+
+$text-color: #fff;
+
+$padding-horizontal-base: 16px;
+$padding-vertical-base: 8px;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.main-container {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-areas: 
+        'header header'
+        'selector1 selector2'
+        'content content'
+        'footer footer';
+    background-color: $background-primary;
+    margin: 16px;
+}
+
+#selector1 {
+    grid-area: selector1;
+}
+
+#selector2 {
+    grid-area: selector2;
+}
+
+#header {
+    grid-area: header;
+}
+
+#footer {
+    grid-area: footer;
+}
+
+#SELECTION_TEXT,
+.selector,
+.selection-text {
+    font-size: 2rem;
+    width: 30rem;
+}
+
+#LEFT_LABEL,
+.selector-label,
+.left_label {
+    margin-right: 10px;
+    font-size: 2rem;
+}
+
+#TITLE_CONTAINER,
+.class-title,
+.class-subtitle,
+.title-container {
+    width: calc(100% - #{$padding-horizontal-base} * 2);
+    padding: $padding-vertical-base $padding-horizontal-base;
+    text-align: left;
+    color: $text-color;
+}
+
+.content {
+    width: calc(100% - #{$padding-horizontal-base} * 2);
+    height: 50vh;
+    margin: 20px 16px;
+    background-color: $background-light;
+    grid-area: content;
+}
+
+.class-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.class-title {
+    background-color: $color-dark;
+}
+
+.class-subtitle {
+    background-color: $color-light;
+}
+
+.students-list {
+
+    ul {
+        list-style-type: none;
+        padding: $padding-vertical-base $padding-horizontal-base;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: $padding-vertical-base $padding-horizontal-base;
+        
+        p {
+            margin-left: $padding-horizontal-base;
+        }
+
+        input {
+            -ms-transform: scale(2); /* IE */
+            -moz-transform: scale(2); /* FF */
+            -webkit-transform: scale(2); /* Safari and Chrome */
+            -o-transform: scale(2); /* Opera */
+            transform: scale(2);
+        }
+    }
+}
+

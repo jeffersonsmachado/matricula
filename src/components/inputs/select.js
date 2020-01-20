@@ -11,24 +11,22 @@ const Select = (props) => {
 
     const {
         label,
-        helperText
+        helperText,
+        handleChange,
+        value,
+        disabled
     } = props
 
     const inputLabel = useRef(null);
 
     const [labelWidth, setLabelWidth] = useState(0);
-    const [value, setValue] = useState('');
 
     useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth)
     }, []);
 
-    const handleChange = (e) => {
-        setValue(e.target.value);
-    }
-
     return (
-        <FormControl variant={'filled'}>
+        <FormControl variant={'filled'} disabled={disabled}>
             <InputLabel ref={inputLabel} id={'select-outline-label'}>
                 {label}
             </InputLabel>

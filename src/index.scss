@@ -2,7 +2,7 @@
 // patter from Jeremy Clarke presentation
 // original can be found https://vimeo.com/38063798
 
-@import './variables';
+@import './variables.import.scss';
 
 * {
   margin: 0;
@@ -19,29 +19,33 @@ body {
 
 .main-container {
   display: grid;
+  position: relative;
   grid-gap: 16px;
   grid-template-areas:
-    "header header"
-    "selector selector"
-    "content content"
-    "footer footer";
-  background-color: $background-primary;
-  margin: 16px;
+    "header"
+    "selector"
+    "content"
+    'footer';
+  background-color: $background-light;
+  height: 100%;
+}
+
+.header-container {
+  grid-area: header;
+  height: 10vh;
+  color: $text-color;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: $padding-vertical-base;
+  padding: $padding-vertical-base $padding-horizontal-base;
 }
 
 .selectors-container {
-    grid-area: selector;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-#header {
-  grid-area: header;
-}
-
-#footer {
-  grid-area: footer;
+  grid-area: selector;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 #SELECTION_TEXT,
@@ -61,16 +65,45 @@ body {
 #TITLE_CONTAINER,
 .class-title,
 .class-subtitle,
+.header-container,
+.footer-container,
 .title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-dark;
   width: calc(100% - #{$padding-horizontal-base} * 2);
   padding: $padding-vertical-base $padding-horizontal-base;
   text-align: left;
   color: $text-color;
 }
 
-.content {
+#PRIMARY_CONTENT_CONTAINER,
+.students-list,
+.primary_content_container {
+  background-color: $background-primary;
+  width: 100%;
+}
+
+#PRIMARY_BUTTON,
+.class-title button,
+.primary_button {
+  border: 0;
+  cursor: pointer;
+  background-color: $color-dark;
+  display: flex;
+  align-items: center;
+}
+
+#PRIMARY_BUTTON_HOVER,
+.class-title button:hover,
+.primary_button.hover {
+  background-color: $color-light;
+  border-radius: 50%;
+}
+
+.content-container {
   width: calc(100% - #{$padding-horizontal-base} * 2);
-  height: 50vh;
   margin: 20px 16px;
   background-color: $background-light;
   grid-area: content;
@@ -80,12 +113,41 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: $padding-vertical-base * 2;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
-.class-title {
-  background-color: $color-dark;
+.class-container:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .class-subtitle {
   background-color: $color-light;
+}
+
+.footer-container:after {
+  grid-area: footer;
+  height: 3vh;
+  font-size: 1rem;
+  position: absolute;
+  bottom: 0;
+}
+
+.submit-container {
+  position: relative;
+  background-color: red;
+  width: 100%;
+  margin-bottom: $padding-vertical-base * 4;
+
+  button {
+    position: absolute;
+    right: 0;
+  }
+
+  p {
+    margin-left: $padding-horizontal-base;
+  }
+
 }

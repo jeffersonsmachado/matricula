@@ -1,0 +1,53 @@
+@import '../../../../src/variables';
+
+.select-container {
+  position: relative;
+
+  select {
+    display: none;
+  }
+
+  .selected {
+    background-color: $color-dark;
+  }
+}
+
+.selected:after {
+  position: absolute;
+  content: '';
+  top: $padding-vertical-base;
+  right: $padding-horizontal-base;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: $color-light transparent transparent transparent;
+}
+
+.select.selected-arrow-active:after {
+  border-color: transparent transparent $color-light transparent;
+}
+
+.items div, .select {
+  color: $color-primary;
+  padding: $padding-vertical-base $padding-horizontal-base;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+.items {
+  position: absolute;
+  background-color: $color-light;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.hide {
+  display: none;
+}
+
+items div:hover, .same-selected {
+  background-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+}

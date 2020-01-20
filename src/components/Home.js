@@ -1,8 +1,8 @@
-import React from 'react'; 
-import Selector from './selector';
+import React from 'react';
 import List from './list';
 import Class from './class';
 import Student from './student';
+import Select from './inputs/select';
 
 const Home = () => {
 
@@ -31,15 +31,14 @@ const Home = () => {
             </div>
 
             <div className="selectors-container">
-                <Selector title={'Origin'} />
-                <Selector title={'Target'} />
+                <Select label={'Origem'} helperText={'Selecione um período acadêmico'}/>
+                <Select label={'Destino'} helperText={'Selecione um período acadêmico'} />
             </div>
 
             <div className="content">
-                <List
-                    classList={[class1, class2]}
-                />
+                    <List classList={[class1, class2]} />
             </div>
+            
             <div id="footer">
                 <h1>FOOTER</h1>
             </div>

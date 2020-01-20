@@ -1,0 +1,71 @@
+@import '../../../../src/variables.import.scss';
+
+/* The checkbox-container */
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: $padding-horizontal-base * 2;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: $background-primary;
+    border: 1px solid transparent;
+    border-radius: 5px;
+  }
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  background-color: $color-light;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: $color-dark;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid $background-light;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.students-list {
+  ul {
+    list-style-type: none;
+    padding: $padding-vertical-base $padding-horizontal-base;
+  }
+}

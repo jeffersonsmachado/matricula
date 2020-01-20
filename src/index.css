@@ -3,31 +3,34 @@
   padding: 0;
 }
 
-html, body {
+html,
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .main-container {
   display: -ms-grid;
   display: grid;
   grid-gap: 16px;
-      grid-template-areas: 'header header' 'selector1 selector2' 'content content' 'footer footer';
+      grid-template-areas: "header header" "selector selector" "content content" "footer footer";
   background-color: #ede7f6;
   margin: 16px;
 }
 
-#selector1 {
+.selectors-container {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
-  grid-area: selector1;
-}
-
-#selector2 {
-  -ms-grid-row: 2;
-  -ms-grid-column: 2;
-  grid-area: selector2;
+  -ms-grid-column-span: 2;
+  grid-area: selector;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 #header {
@@ -98,70 +101,5 @@ html, body {
 
 .class-subtitle {
   background-color: #9d46ff;
-}
-
-.checkbox-container {
-  display: block;
-  position: relative;
-  padding-left: calc(8px * 2);
-  margin-bottom: 16px;
-  cursor: pointer;
-  font-size: 1rem;
-  padding: 8px 16px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.input:checked ~ .checkmark {
-  background-color: #0a00b6;
-}
-
-.input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background: #ede7f6;
-}
-
-.checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.checkmark:after {
-  content: '';
-  position: absolute;
-  display: none;
-}
-
-.checkbox-container:hover input ~ .checkmark {
-  background-color: #9d46ff;
-}
-
-.students-list ul {
-  list-style-type: none;
-  padding: 8px 16px;
 }
 /*# sourceMappingURL=index.css.map */

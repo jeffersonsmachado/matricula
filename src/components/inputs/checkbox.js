@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/checkbox.css';
 
 const Checkbox = (props) => {
 
@@ -8,7 +9,7 @@ const Checkbox = (props) => {
     } = props;
 
     return (
-        <label key={value} className="checkbox-container" htmlFor="checkbox">
+        <label key={value} className="checkbox-container">
             {option}
             <input type="checkbox" value={value}/>
             <span className="checkmark"></span>

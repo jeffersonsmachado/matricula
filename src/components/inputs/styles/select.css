@@ -1,0 +1,9 @@
+@import url(/Users/jeff/Workspace/school/src/variables.css);
+.select-container {
+  position: relative;
+}
+
+.select-container select {
+  display: none;
+}
+/*# sourceMappingURL=select.css.map */

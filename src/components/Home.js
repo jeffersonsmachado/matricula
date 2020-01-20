@@ -6,6 +6,7 @@ import Header from './header';
 import Footer from './footer';
 import Select from './inputs/select';
 import Loading from './loading';
+import Modal from './modal';
 
 import Button from '@material-ui/core/Button';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -28,6 +29,7 @@ export const Context = React.createContext();
 const Home = () => {
 
     const [options, setOptions] = useState([]);
+    const [open, setOpen] = useState(false);
 
     const [origin, originDispatcher] = useReducer(originReducer, '');
     const [target, targetDispatcher] = useReducer(targetReducer, '');
@@ -46,9 +48,9 @@ const Home = () => {
             },
             body: JSON.stringify(data)
         };
-        console.log(data);
         const url = URL + 'migrate';
         const response = await fetch(url, init);
+        setOpen(true);
         console.log(response);
     }
 
@@ -117,7 +119,6 @@ const Home = () => {
                         return accumulator;
                     }, {})
                     classDispatcher(resetClasses());
-                    console.log(data);
                     Object.keys(data).forEach( key => {
                         classDispatcher(addClass(data[key]));
                     });
@@ -141,7 +142,13 @@ const Home = () => {
         <Context.Provider value={{ classDispatcher, studentDispatcher }}>
             <div className="main-container">
                 <Header />
-
+                <Modal
+                    open={open}
+                    handleClose={() => {
+                        window.location.reload(false);
+                        setOpen(!open)
+                    }}
+                />
                 <div className="selectors-container">
 
                     <Select

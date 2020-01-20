@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import './styles/select.css';
 
 import MaterialSelect from '@material-ui/core/Select';
@@ -12,14 +12,19 @@ const Select = (props) => {
     const {
         label,
         helperText,
-        handleChange,
         value,
-        disabled
+        disabled,
+        options,
+        add
     } = props
 
     const inputLabel = useRef(null);
-
     const [labelWidth, setLabelWidth] = useState(0);
+
+    const handleChange = (e) => {
+        const period = e.target.value;
+        add(period);
+    }
 
     useEffect(() => {
         setLabelWidth(inputLabel.current.offsetWidth)
@@ -49,9 +54,16 @@ const Select = (props) => {
                 }}
             >
                 <MenuItem value={''}><em>None</em></MenuItem>
-                <MenuItem value={0}>OPTION 1</MenuItem>
-                <MenuItem value={1}>OPTION 2</MenuItem>
-                <MenuItem value={2}>OPTION 3</MenuItem>
+                {
+                    Array.isArray(options) && options.map( (option, key) => 
+                        <MenuItem
+                            key={key}
+                            value={option.Id}
+                        >
+                                {option.Description}
+                        </MenuItem>
+                    )
+                }
             </MaterialSelect>
             <FormHelperText>
                 {helperText}

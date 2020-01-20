@@ -38,11 +38,13 @@ const Class = (props) => {
             <div className="students-list">
                 <ul>
                     {
-                        list.map( (student, key) => (
-                            <li key={key}>
-                                <Checkbox student={student} classId={id} />
-                            </li>
-                        ))
+                        list.map( (student, key) => {
+                            return (
+                                <li key={key}>
+                                    <Checkbox {...student} />
+                                </li>
+                            )
+                        })
                     }
                 </ul>
             </div>

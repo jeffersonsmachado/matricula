@@ -4,8 +4,7 @@ const reducer = (state, action) => {
             return [
                 ...state,
                 {
-                    ...action.payload.student,
-                    classId: action.payload.classId
+                    ...action.payload,
                 }
             ]
         case 'remove':

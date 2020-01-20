@@ -7,6 +7,8 @@ const reducer = (state, action) => {
             ]
         case 'remove':
             return state.filter( ({ id }) => id !== action.payload);
+        case 'reset':
+            return [];
         default:
             return state;
     }

@@ -5,60 +5,137 @@ import Class from './class';
 import Header from './header';
 import Footer from './footer';
 import Select from './inputs/select';
+import Loading from './loading';
 
 import Button from '@material-ui/core/Button';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 
 import studentReducer from '../reducers/studentReducer';
 import classReducer from '../reducers/classReducer';
+import originReducer from '../reducers/originReducer';
+import targetReducer from '../reducers/targetReducer';
 
-import {
-    add as addClass
-} from '../actions/classActions';
+import { add as addClass, reset as resetClasses } from '../actions/classActions';
+import { add as addOrigin } from '../actions/originActions';
+import { add as addTarget } from '../actions/targetActions';
 
+import { useGET } from '../hooks/api';
 
-const student1 = Student({ id: 1, name: 'John Doe' });
-const student2 = Student({ id: 2, name: 'Jane Doe' });
-const student3 = Student({ id: 3, name: 'Cloe Doe' });
-const student4 = Student({ id: 4, name: 'Doug Doe' });
-
-const class1 = {
-    id: 1,
-    title: 'Português',
-    subtitle: 'Turma P-1',
-    list: [student1, student2]
-};
-
-const class2 = {
-    id: 2,
-    title: 'Matemática',
-    subtitle: 'Turma M-1',
-    list: [student3, student4]
-};
+const URL = 'http://localhost:3001/';
 
 export const Context = React.createContext();
 
 const Home = () => {
 
-    const [origin, setOrigin] = useState('');
-    const [target, setTarget] = useState('');
+    const [options, setOptions] = useState([]);
 
+    const [origin, originDispatcher] = useReducer(originReducer, '');
+    const [target, targetDispatcher] = useReducer(targetReducer, '');
     const [classes, classDispatcher] = useReducer(classReducer, []);
     const [students, studentDispatcher] = useReducer(studentReducer, []);
 
-    const handlePeriodChange = (e, setPeriod) => {
-        setPeriod(e.target.value);
+    const [ isLoadingOption, dataFetchedOptions ] = useGET(URL + 'periods');
+
+    const handleSubmit = async() => {
+        const data = { students, origin, target };
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        console.log(data);
+        const url = URL + 'migrate';
+        const response = await fetch(url, init);
+        console.log(response);
     }
 
-    const handleSubmit = () => {
-        console.log(students, origin, target);
+    const filterTarget = (period) => {
+        if(!isNaN(period)) {
+            return period % 2 === 0 ? 'even' : 'odd'
+        }
     }
 
     useEffect(() => {
-        console.log('RENDERING FROM USE EFFECT');
-        classDispatcher(addClass(class1));
-        classDispatcher(addClass(class2));
-    }, []);
+
+        setOptions(dataFetchedOptions);
+
+        if (origin) {
+
+            fetch(URL + `studentsClass?period=${origin}`)
+                .then(data => data.json())
+                .then( records => {
+                    const data = records.data.reduce( (accumulator, current) => {
+                        const {
+                            ClassId,
+                            ClassName,
+                            CourseId,
+                            CourseName,
+                            PeriodId,
+                            PeriodName,
+                            StudentId,
+                            StudentName,
+                            StudentClassId: id
+                        } = current;
+
+                        if (accumulator[ClassName] === undefined) {
+                            accumulator[ClassName] = {
+                                id: id,
+                                title: CourseName,
+                                subtitle: ClassName,
+                                courseId: CourseId,
+                                classId: ClassId,
+                                periodId: PeriodId,
+                                periodName: PeriodName,
+                                list: [Student({
+                                    name: StudentName,
+                                    id: StudentId,
+                                    courseId: CourseId,
+                                    classId: ClassId,
+                                    periodId: PeriodId,
+                                    studentClassId: id,
+                                })]
+                            }
+                        } else {
+                            accumulator[ClassName] = {
+                                ...accumulator[ClassName],
+                                list: [
+                                    ...accumulator[ClassName].list,
+                                    Student({
+                                        name: StudentName,
+                                        id: StudentId,
+                                        courseId: CourseId,
+                                        classId: ClassId,
+                                        periodId: PeriodId,
+                                        studentClassId: id,
+                                    })
+                                ]
+                            }
+                        }
+                        return accumulator;
+                    }, {})
+                    classDispatcher(resetClasses());
+                    console.log(data);
+                    Object.keys(data).forEach( key => {
+                        classDispatcher(addClass(data[key]));
+                    });
+                });
+        }
+    }, [dataFetchedOptions, origin]);
+
+    if(isLoadingOption) {
+        return (
+            <div className="main-container">
+                <Header></Header>
+                <div className="selectors-container">
+                    <Loading />
+                </div>
+                <Footer></Footer>
+            </div>
+        )
+    }
 
     return (
         <Context.Provider value={{ classDispatcher, studentDispatcher }}>
@@ -71,16 +148,24 @@ const Home = () => {
                         label={'Origem'}
                         helperText={'Selecione um período acadêmico'}
                         value={origin}
-                        handleChange={e => handlePeriodChange(e, setOrigin)}
+                        add={(id) => originDispatcher(addOrigin(id))}
+                        options={options}
                     />
 
                     <Select
                         label={'Destino'}
                         helperText={'Selecione um período acadêmico'}
                         value={target}
-                        handleChange={e => handlePeriodChange(e, setTarget)}
+                        add={(id) => targetDispatcher(addTarget(id))}
                         disabled={origin === '' || origin === undefined || origin === false || origin === null}
-                    />
+                        options={options.filter(({ Id }) => {
+                            return (
+                                filterTarget(Id) === filterTarget(origin)
+                                &&
+                                Id !== origin
+                            )})
+                        }
+        />
 
                 </div>
 
@@ -91,7 +176,12 @@ const Home = () => {
                         )
                     }
                     <div className="submit-container">
-                        <Button variant={'contained'} color={'primary'} onClick={handleSubmit}>
+                        <Button
+                            variant={'contained'}
+                            color={'primary'}
+                            onClick={handleSubmit}
+                            disabled={target === '' || target === undefined || target === false || target === null}
+                        >
                             <TrendingUpIcon/>
                             <p>Migrar</p>
                         </Button>

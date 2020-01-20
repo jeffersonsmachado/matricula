@@ -1,9 +1,9 @@
-export const add = (student, classId) => ({
+export const add = (student) => ({
     type: 'add',
-    payload: { student, classId }
+    payload: student
 });
 
-export const remove = (student, classId) => ({
+export const remove = (student) => ({
     type: 'remove',
-    payload: { student, classId }
+    payload: student
 })

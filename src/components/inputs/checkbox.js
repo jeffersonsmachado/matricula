@@ -10,17 +10,18 @@ const Checkbox = (props) => {
 
     const handleChange = (e) => {
         e.target.checked
-            ? studentDispatcher(add(props.student, props.classId))
-            : studentDispatcher(remove(props.student.id, props.classId))
+            ? studentDispatcher(add(props))
+            : studentDispatcher(remove(props))
     }
 
     return (
-        <label key={props.student.id} className="checkbox-container">
-            {props.student.name}
+        <label key={props.id} className="checkbox-container">
+            {props.name}
             <input
                 type="checkbox"
-                value={props.student.id}
-                onChange={handleChange}/>
+                value={props.id}
+                onChange={handleChange}
+            />
             <span className="checkmark"></span>
         </label>
     );
